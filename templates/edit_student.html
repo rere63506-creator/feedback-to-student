@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعديل طالب</title>
+    <style>
+        body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f7f9;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+        .container{background:#fff;width:100%;max-width:480px;padding:30px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-top:5px solid #6fb7e8}
+        h1{text-align:center;font-size:22px;color:#3a3a3a;margin-bottom:20px}
+        .form-group{margin-bottom:14px}
+        label{display:block;margin-bottom:6px;color:#555;font-size:14px;font-weight:600}
+        input[type="text"]{width:100%;padding:12px;border:1px solid #dde2e6;border-radius:10px;box-sizing:border-box;background:#fafbfc}
+        .check-group{display:flex;gap:20px;margin:15px 0}
+        .btn{width:100%;padding:14px;font-size:16px;border:none;border-radius:10px;cursor:pointer;background:#6fb7e8;color:#fff;font-weight:600}
+        .btn:hover{background:#5aa5d6}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>تعديل بيانات {{ student.name }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group"><label>الاسم</label><input type="text" name="name" value="{{ student.name }}" required></div>
+            <div class="form-group"><label>الصف</label><input type="text" name="grade" value="{{ student.grade }}" required></div>
+            <div class="form-group"><label>الهاتف</label><input type="text" name="phone" value="{{ student.phone }}"></div>
+            <div class="check-group">
+                <label><input type="checkbox" name="attend" {% if student.attend %}checked{% endif %}> حضور</label>
+                <label><input type="checkbox" name="homework" {% if student.homework %}checked{% endif %}> واجب</label>
+                <label><input type="checkbox" name="paid" {% if student.paid %}checked{% endif %}> دفع</label>
+            </div>
+            <button type="submit" class="btn">حفظ التعديلات</button>
+        </form>
+    </div>
+</body>
+</html>

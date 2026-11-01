@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دخول الطالب</title>
+    <style>
+        body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f7f9;display:flex;justify-content:center;align-items:center;min-height:100vh}
+        .container{background:#fff;width:90%;max-width:420px;padding:35px 30px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-top:5px solid #6fb7e8;text-align:center}
+        h1{color:#3a3a3a;font-size:22px;margin-bottom:20px}
+        .form-group{margin-bottom:16px;text-align:right}
+        label{display:block;margin-bottom:6px;color:#555;font-size:14px;font-weight:600}
+        input{width:100%;padding:12px 14px;border:1px solid #dde2e6;border-radius:10px;font-size:15px;box-sizing:border-box;background:#fafbfc}
+        input:focus{outline:none;border-color:#6fb7e8;background:#fff}
+        .btn{width:100%;padding:14px;font-size:17px;border:none;border-radius:10px;cursor:pointer;background:#6fb7e8;color:#fff;font-weight:600;margin-top:10px}
+        .btn:hover{background:#5aa5d6}
+        .error{background:#ffeaea;color:#d33;padding:10px;border-radius:8px;margin-bottom:15px;font-size:14px}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>دخول الطالب</h1>
+        {% if error %}<div class="error">{{ error }}</div>{% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group"><label>اسم الطالب</label><input type="text" name="name" required></div>
+            <div class="form-group"><label>الصف</label><input type="text" name="grade" required></div>
+            <div class="form-group"><label>اسم المدرس</label><input type="text" name="teacher_name" required></div>
+            <button type="submit" class="btn">دخول</button>
+        </form>
+    </div>
+</body>
+</html>

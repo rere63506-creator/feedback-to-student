@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيانات الطالب</title>
+    <style>
+        body{margin:0;font-family:'Segoe UI',sans-serif;background:#f5f7f9;display:flex;justify-content:center;align-items:center;min-height:100vh}
+        .card{background:#fff;width:90%;max-width:450px;padding:30px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.07);border-top:5px solid #6fb7e8}
+        h1{font-size:22px;color:#3a3a3a;text-align:center}
+        .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eef1f3;font-size:15px}
+        .row span:last-child{font-weight:600}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>{{ student.name }}</h1>
+        <div class="row"><span>الصف:</span><span>{{ student.grade }}</span></div>
+        <div class="row"><span>الهاتف:</span><span>{{ student.phone }}</span></div>
+        <div class="row"><span>المدرس:</span><span>{{ student.teacher.full_name }}</span></div>
+        <div class="row"><span>حضور:</span><span>{% if student.attend %}حاضر{% else %}غائب{% endif %}</span></div>
+        <div class="row"><span>الواجب:</span><span>{% if student.homework %}تم{% else %}لم يتم{% endif %}</span></div>
+        <div class="row"><span>الدفع:</span><span>{% if student.paid %}مدفوع{% else %}غير مدفوع{% endif %}</span></div>
+    </div>
+</body>
+</html>

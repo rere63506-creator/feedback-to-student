@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة تحكم حضرتك</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7f9;
+            color: #333;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #6fb7e8;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            color: #3a3a3a;
+        }
+        .header span {
+            color: #6fb7e8;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            color: #7a7a7a;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .form-inline {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .form-inline input {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 14px;
+            border: 1px solid #dde2e6;
+            border-radius: 10px;
+            font-size: 14px;
+            background-color: #fafbfc;
+        }
+        .btn {
+            padding: 12px 22px;
+            font-size: 15px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .btn-add {
+            background-color: #6fb7e8;
+            color: white;
+        }
+        .btn-add:hover {
+            background-color: #5aa5d6;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th {
+            background-color: #f0f4f7;
+            color: #555;
+            padding: 12px;
+            font-size: 14px;
+            text-align: center;
+        }
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eef1f3;
+            font-size: 14px;
+        }
+        .btn-small {
+            padding: 7px 14px;
+            font-size: 13px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+        }
+        .btn-edit {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .btn-delete {
+            background-color: #ffe3e3;
+            color: #c92a2a;
+        }
+        .status-true {
+            color: #2b8a3e;
+            font-weight: 600;
+        }
+        .status-false {
+            color: #868e96;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>أهلا بحضرتك يا أستاذ <span>{{ teacher.full_name }}</span></h1>
+            <p>مادة {{ teacher.subject }} - كل شيء تحت سيطرة حضرتك</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>إضافة طالب جديد</h2>
+            <form method="POST" class="form-inline">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="اسم الطالب" required>
+                <input type="text" name="grade" placeholder="الصف / المجموعة" required>
+                <input type="text" name="phone" placeholder=" رقم هاتف ولى الامر">
+                <button type="submit" class="btn btn-add">إضافة</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>طلاب حضرتك ({{ students.count }})</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الاسم</th>
+                        <th>الصف</th>
+                        <th>حضور</th>
+                        <th>واجب</th>
+                        <th>دفع</th>
+                        <th>تحكم</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.grade }}</td>
+                        <td class="{% if student.attend %}status-true{% else %}status-false{% endif %}">
+                            {% if student.attend %}حاضر{% else %}غائب{% endif %}
+                        </td>
+                        <td>{% if student.homework %}تم{% else %}لم يتم{% endif %}</td>
+                        <td>{% if student.paid %}مدفوع{% else %}غير مدفوع{% endif %}</td>
+                        <td>
+                            <a href="{% url 'edit_student' student.id %}" class="btn-small btn-edit">تعديل</a>
+                            <a href="{% url 'delete_student' student.id %}" class="btn-small btn-delete">حذف</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" style="color: #999;">لسه مفيش طلاب مضافين</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
